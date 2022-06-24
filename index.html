@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="file" onchange="readFile(this)">
+  </body>
+<script type="text/javascript">
+
+/* function debug(msg) {
+    var log = document.getElementById('debuglog');
+  if (!log) {
+    log = document.createElement('div');
+    log.id = 'debuglog';
+    log.innerHTML = '<h1> Debug Log</h1>';
+    document.body.appendChild(log);
+  }
+  var pre = document.createElement(':pre');
+  var text = document.createTextNode(msg);
+  pre.appendChild(text);
+  log.appendChild(pre);
+}; */
+
+function readFile(input) {
+    let file = input.files[0];
+
+    let reader = new FileReader();
+
+    reader.readAsText(file);
+
+    reader.onload = function() {
+      console.log(reader.result);
+      parse(reader.result);
+    }
+
+    reader.onerror = function() {
+      console.log(reader.error);
+    }
+};
+
+  function parse(x) {
+    var result = {};
+    var s = x.split(" ");
+    s.forEach(element => {
+      if ( element.replace(/[^a-zа-яё0-9\s]/gi, '').length == 5) {
+        var a = element;
+        if (result[a] != undefined)
+          ++result[a];
+        else
+          result[a] = 1;
+    }
+   }
+  );
+  var sortable = Object.entries(result).sort((a,b) => b[1]-a[1])
+  console.log(sortable.join('\n').replace(/[^a-zа-яё0-9\s]/gi, ': '));
+};
+
+</script>
+</html>
